@@ -1,15 +1,17 @@
-   # Backend
-   backend/target/
-   backend/.mvn/wrapper/
+# Backend (Java/Maven)
+backend/target/
+backend/.mvn/wrapper/
+*.class
 
-   # Frontend (once you add it)
-   frontend/node_modules/
-   frontend/.next/
-   frontend/.env.local
+# Frontend (Node/Next.js)
+frontend/node_modules/
+frontend/.next/
+frontend/.env.local
 
-   # IDE
-   .idea/
-   *.iml
+# IDE
+.idea/
+*.iml
+.vscode/
 
-   # OS
-   .DS_Store
+# OS
+.DS_Store
