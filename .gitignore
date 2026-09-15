@@ -1,0 +1,15 @@
+   # Backend
+   backend/target/
+   backend/.mvn/wrapper/
+
+   # Frontend (once you add it)
+   frontend/node_modules/
+   frontend/.next/
+   frontend/.env.local
+
+   # IDE
+   .idea/
+   *.iml
+
+   # OS
+   .DS_Store
