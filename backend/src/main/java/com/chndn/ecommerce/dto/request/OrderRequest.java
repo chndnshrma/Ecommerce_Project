@@ -1,4 +1,7 @@
 package com.chndn.ecommerce.dto.request;
 
-public class OrderRequest {
-}
+import jakarta.validation.constraints.NotBlank;
+
+public record OrderRequest(
+        @NotBlank String shippingAddress
+) {}

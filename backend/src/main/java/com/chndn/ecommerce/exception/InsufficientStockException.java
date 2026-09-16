@@ -1,4 +1,7 @@
 package com.chndn.ecommerce.exception;
 
-public class InsufficientStockException {
+public class InsufficientStockException extends RuntimeException {
+    public InsufficientStockException(String message) {
+        super(message);
+    }
 }

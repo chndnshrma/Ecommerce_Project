@@ -1,24 +1,23 @@
 package com.chndn.ecommerce.dto.response;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.List;
 
-public record OrderResponse(
-        String orderId,
-        String status,
+public record CartResponse(
+        String cartId,
         List<Item> items,
-        BigDecimal totalAmount,
-        String shippingAddress,
-        Instant createdAt
+        BigDecimal totalAmount
 ) {
     public record Item(
+            String cartItemId,
+            String variantId,
             String productName,
             String sku,
             String size,
             String color,
             Integer quantity,
-            BigDecimal unitPriceAtPurchase,
-            BigDecimal lineTotal
+            BigDecimal unitPrice,
+            BigDecimal lineTotal,
+            Integer stockAvailable
     ) {}
 }

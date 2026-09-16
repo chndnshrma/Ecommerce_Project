@@ -1,4 +1,10 @@
 package com.chndn.ecommerce.exception;
 
-public class ErrorResponse {
-}
+import java.time.Instant;
+
+public record ErrorResponse(
+        Instant timestamp,
+        int status,
+        String error,
+        String message
+) {}

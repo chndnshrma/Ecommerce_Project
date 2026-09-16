@@ -1,4 +1,9 @@
 package com.chndn.ecommerce.dto.response;
 
-public class AuthResponse {
-}
+public record AuthResponse(
+        String token,
+        String userId,
+        String email,
+        String fullName,
+        String role
+) {}
