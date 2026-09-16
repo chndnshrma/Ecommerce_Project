@@ -18,8 +18,8 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
     @Query("""
         SELECT p FROM Product p
         WHERE p.isActive = true
-        AND (:keyword IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%')))
-        AND (:categorySlug IS NULL OR p.category.slug = :categorySlug)
+        AND (CAST(:keyword AS string) IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', CAST(:keyword AS string), '%')))
+        AND (CAST(:categorySlug AS string) IS NULL OR p.category.slug = CAST(:categorySlug AS string))
         AND (:minPrice IS NULL OR p.basePrice >= :minPrice)
         AND (:maxPrice IS NULL OR p.basePrice <= :maxPrice)
         """)

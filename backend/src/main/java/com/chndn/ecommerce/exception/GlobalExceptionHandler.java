@@ -56,4 +56,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(Instant.now(), 400, "Bad Request", ex.getMessage()));
     }
+    @ExceptionHandler(PaymentVerificationException.class)
+    public ResponseEntity<ErrorResponse> handlePaymentVerification(PaymentVerificationException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(Instant.now(), 400, "Bad Request", ex.getMessage()));
+    }
 }
