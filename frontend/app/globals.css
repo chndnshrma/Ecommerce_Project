@@ -1,13 +1,25 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-background: #FBFAF7;
+  --color-surface: #FFFFFF;
+  --color-ink: #17160F;
+  --color-muted: #6F6D62;
+  --color-border: #E7E4DA;
+  --color-accent: #2F3B2C;
+  --color-error: #B3432C;
+
+  /* Register your custom font families here instead of tailwind.config.ts */
+  --font-display: var(--font-display), serif;
+  --font-body: var(--font-body), sans-serif;
+}
 
 * {
-  border-color: theme('colors.border');
+  border-color: var(--color-border);
 }
 
 ::selection {
-  background-color: theme('colors.accent');
+  background-color: var(--color-accent);
   color: white;
 }
 
