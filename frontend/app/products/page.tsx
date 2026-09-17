@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import ProductCard from '@/components/ProductCard';
 import type { ProductPage } from '@/lib/types';
 
@@ -18,17 +19,22 @@ async function getProducts(searchParams: SearchParams): Promise<ProductPage | nu
 
   try {
     const res = await fetch(`${API_URL}/products?${params.toString()}`, {
-      next: { revalidate: 60 }, // ISR: re-fetch at most once per minute
+      next: { revalidate: 60 },
     });
-
-    if (!res.ok) {
-      return null;
-    }
-
+    if (!res.ok) return null;
     return res.json();
   } catch {
     return null;
   }
+}
+
+// Helper to construct pagination URLs while keeping active filters
+function createPageUrl(searchParams: SearchParams, pageIndex: number): string {
+  const params = new URLSearchParams();
+  if (searchParams.keyword) params.set('keyword', searchParams.keyword);
+  if (searchParams.category) params.set('category', searchParams.category);
+  params.set('page', pageIndex.toString());
+  return `?${params.toString()}`;
 }
 
 export default async function ProductsPage({
@@ -41,9 +47,9 @@ export default async function ProductsPage({
 
   if (!data) {
     return (
-      <div className="mx-auto max-w-6xl px-6 py-16 text-center">
-        <h2 className="text-lg font-medium">Couldn't load products</h2>
-        <p className="mt-2 text-sm text-stone-500">
+      <div className="mx-auto max-w-6xl px-6 py-24 text-center">
+        <h2 className="font-display text-xl">Couldn&apos;t load products</h2>
+        <p className="mt-2 text-sm text-muted">
           The store is temporarily unavailable. Try refreshing the page.
         </p>
       </div>
@@ -52,9 +58,9 @@ export default async function ProductsPage({
 
   if (data.content.length === 0) {
     return (
-      <div className="mx-auto max-w-6xl px-6 py-16 text-center">
-        <h2 className="text-lg font-medium">No products found</h2>
-        <p className="mt-2 text-sm text-stone-500">
+      <div className="mx-auto max-w-6xl px-6 py-24 text-center">
+        <h2 className="font-display text-xl">No products found</h2>
+        <p className="mt-2 text-sm text-muted">
           {params.keyword
             ? `Nothing matched "${params.keyword}".`
             : 'Check back soon — new gear is on the way.'}
@@ -64,28 +70,30 @@ export default async function ProductsPage({
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-10">
-      <h1 className="text-2xl font-semibold tracking-tight">Shop all gear</h1>
-      <p className="mt-1 text-sm text-stone-500">{data.totalElements} products</p>
+    <div className="mx-auto max-w-6xl px-6 py-14">
+      <h1 className="font-display text-3xl">Shop all gear</h1>
+      <p className="mt-2 text-sm text-muted">{data.totalElements} products</p>
 
-      <div className="mt-8 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
+      <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
         {data.content.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
 
       {data.totalPages > 1 && (
-        <div className="mt-10 flex justify-center gap-2 text-sm">
+        <div className="mt-14 flex justify-center gap-4 text-sm">
           {Array.from({ length: data.totalPages }, (_, i) => (
-            
+            <Link
               key={i}
-              href={`?page=${i}`}
-              className={`rounded px-3 py-1 ${
-                i === data.number ? 'bg-stone-900 text-white' : 'bg-stone-100 text-stone-700'
-              }`}
+              href={createPageUrl(params, i)}
+              className={
+                i === data.number
+                  ? 'text-ink underline underline-offset-4'
+                  : 'text-muted hover:text-ink'
+              }
             >
               {i + 1}
-            </a>
+            </Link>
           ))}
         </div>
       )}

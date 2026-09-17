@@ -72,3 +72,16 @@ export interface AuthResponse {
   fullName: string;
   role: string;
 }
+export interface PaymentOrderResponse {
+  razorpayOrderId: string;
+  amount: string;
+  currency: string;
+  internalOrderId: string;
+}
+
+// Minimal shape of what Razorpay's checkout.js passes to the success handler
+export interface RazorpaySuccessResponse {
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
+}
